@@ -9,6 +9,80 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      order_items: {
+        Row: {
+          created_at: string
+          id: number
+          orders_id: number
+          product_id: number
+          quantity: number | null
+          size: string
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          orders_id: number
+          product_id: number
+          quantity?: number | null
+          size?: string
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          orders_id?: number
+          product_id?: number
+          quantity?: number | null
+          size?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "order_items_orders_id_fkey"
+            columns: ["orders_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "order_items_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      orders: {
+        Row: {
+          created_at: string
+          id: number
+          stauts: string
+          total: number
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          stauts?: string
+          total?: number
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          stauts?: string
+          total?: number
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "orders_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       products: {
         Row: {
           created_at: string
