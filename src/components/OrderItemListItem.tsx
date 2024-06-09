@@ -12,7 +12,7 @@ const OrderItemListItem = ({ item }: OrderItemListItemProps) => {
   return (
     <View style={styles.container}>
       <Image
-        source={{ uri: item.products.image || defaultPizzaImage }}
+        source={{ uri: item.products.image || defaultPizzaImage || undefined }}
         style={styles.image}
         resizeMode="contain"
       />
