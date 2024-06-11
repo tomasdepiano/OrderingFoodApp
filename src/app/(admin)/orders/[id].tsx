@@ -6,7 +6,7 @@ import { FlatList, Text, View } from "react-native";
 import { Pressable } from "react-native";
 import Colors from "@/src/constants/Colors";
 import { OrderStatusList } from "@/src/types";
-import { useOrderDetails } from "@/src/api/orders";
+import { useOrderDetails, useUpdateOrder } from "@/src/api/orders";
 import { ActivityIndicator } from "react-native";
 
 export default function OrderDetailsScreen() {
@@ -14,15 +14,18 @@ export default function OrderDetailsScreen() {
   const id = parseFloat(typeof idString === "string" ? idString : idString[0]);
 
   const { data: order, isLoading, error } = useOrderDetails(id);
+  const { mutate: updateOrder } = useUpdateOrder();
+
+  const updateStatus = (status) => {
+    updateOrder({ id: id, updatedFields: { status } });
+  };
 
   if (isLoading) {
     return <ActivityIndicator />;
   }
-  if (error) {
+  if (error || !order) {
     return <Text>Failed to FetcH</Text>;
   }
-
-  console.log(order);
 
   return (
     <View style={{ padding: 10, gap: 20, flex: 1 }}>
@@ -40,7 +43,7 @@ export default function OrderDetailsScreen() {
               {OrderStatusList.map((status) => (
                 <Pressable
                   key={status}
-                  onPress={() => console.warn("Update status")}
+                  onPress={() => updateStatus(status)}
                   style={{
                     borderColor: Colors.light.tint,
                     borderWidth: 1,
