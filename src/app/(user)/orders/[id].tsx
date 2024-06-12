@@ -1,4 +1,5 @@
 import { useOrderDetails } from "@/src/api/orders";
+import { useUpdateOrderSubscription } from "@/src/api/orders/subscription";
 import OrderItemListItem from "@/src/components/OrderItemListItem";
 import OrderListItem from "@/src/components/OrderListItem";
 import { useLocalSearchParams, Stack } from "expo-router";
@@ -10,7 +11,7 @@ export default function OrderDetailsScreen() {
 
   const { data: order, isLoading, error } = useOrderDetails(id);
 
-  // const order = orders.find((o) => o.id.toString() === id);
+  useUpdateOrderSubscription(id);
 
   if (!order) {
     return <Text>Not found</Text>;
